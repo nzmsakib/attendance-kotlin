@@ -1,6 +1,7 @@
 package com.nasakib.attendancems.ui.login
 
 import android.app.Activity
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -15,6 +16,7 @@ import android.widget.Toast
 import com.nasakib.attendancems.databinding.ActivityLoginBinding
 
 import com.nasakib.attendancems.R
+import com.nasakib.attendancems.ui.student.dashboard.DashboardActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -101,6 +103,7 @@ class LoginActivity : AppCompatActivity() {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
         // TODO : initiate successful logged in experience
+        startActivity(Intent(this, DashboardActivity::class.java))
         Toast.makeText(
             applicationContext,
             "$welcome $displayName",
