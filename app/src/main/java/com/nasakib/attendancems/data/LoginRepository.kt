@@ -1,5 +1,6 @@
 package com.nasakib.attendancems.data
 
+import android.content.Context
 import com.nasakib.attendancems.data.model.LoggedInUser
 
 /**
@@ -20,11 +21,6 @@ class LoginRepository(val dataSource: LoginDataSource) {
         // If user credentials will be cached in local storage, it is recommended it be encrypted
         // @see https://developer.android.com/training/articles/keystore
         user = null
-    }
-
-    fun logout() {
-        user = null
-        dataSource.logout()
     }
 
     fun login(username: String, password: String): Result<LoggedInUser> {

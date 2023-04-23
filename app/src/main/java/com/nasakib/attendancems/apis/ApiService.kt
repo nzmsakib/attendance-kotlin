@@ -8,10 +8,14 @@ import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST
 
-interface AuthAPI {
-     @POST("login")
-     fun checkUser(
-          @Body user: LoggedOutUser,
-          @Header("Accept") accept: String = "application/json"
-     ): Call<ApiResult<LoggedInUser>>
+/**
+ * Interface for defining REST request functions
+ */
+interface ApiService {
+
+    @POST("login")
+    fun login(
+        @Body user: LoggedOutUser,
+        @Header("Accept") accept: String = "application/json"
+    ): Call<ApiResult<LoggedInUser>>
 }

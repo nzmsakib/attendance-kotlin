@@ -16,12 +16,14 @@ import android.widget.Toast
 import com.nasakib.attendancems.databinding.ActivityLoginBinding
 
 import com.nasakib.attendancems.R
+import com.nasakib.attendancems.SessionManager
 import com.nasakib.attendancems.ui.student.dashboard.DashboardActivity
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +36,15 @@ class LoginActivity : AppCompatActivity() {
         val login = binding.login
         val loading = binding.loading
 
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())[LoginViewModel::class.java]
+        sessionManager = SessionManager(this)
+        // if user is already logged in, then redirect to dashboard
+        if (sessionManager.isLoggedIn) {
+            val intent = Intent(this, DashboardActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        loginViewModel = ViewModelProvider(this, LoginViewModelFactory(applicationContext))[LoginViewModel::class.java]
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
@@ -94,7 +104,10 @@ class LoginActivity : AppCompatActivity() {
 
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+                loginViewModel.login(
+                    username.text.toString(),
+                    password.text.toString()
+                )
             }
         }
     }
