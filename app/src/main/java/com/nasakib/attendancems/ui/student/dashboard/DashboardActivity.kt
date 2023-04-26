@@ -15,6 +15,7 @@ import com.nasakib.attendancems.R
 import com.nasakib.attendancems.SessionManager
 import com.nasakib.attendancems.apis.ApiClient
 import com.nasakib.attendancems.databinding.ActivityDashboardStudentBinding
+import com.nasakib.attendancems.ui.ReportAdapter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -43,23 +44,18 @@ class DashboardActivity : AppCompatActivity() {
         listView = binding.list
         swipeRefreshLayout = binding.swipeRefresh
 
-        listView.setOnItemClickListener { parent, view, position, id ->
-            val report = dashboardViewModel.getReports()[position]
-            Toast.makeText(this, "${report.label}: ${report.value}", Toast.LENGTH_SHORT).show()
-        }
-
         dashboardViewModel = DashboardViewModel()
 
         dashboardViewModel.reports.observe(this@DashboardActivity, Observer {
             val reports = it ?: return@Observer
             Log.d("DashActivity", "Reports: $reports")
-            val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, reports.map { report -> report.label })
+            val adapter = ReportAdapter(this, R.layout.report_row, reports)
             listView.adapter = adapter
         })
 
         val apiService = apiClient.getApiService(this)
 
-        swipeRefreshLayout.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+        swipeRefreshLayout.setOnRefreshListener {
             // empty list
             dashboardViewModel.setReports(emptyList())
             GlobalScope.launch {
@@ -80,7 +76,7 @@ class DashboardActivity : AppCompatActivity() {
                 }
                 swipeRefreshLayout.isRefreshing = false
             }
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
