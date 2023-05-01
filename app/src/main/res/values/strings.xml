@@ -12,6 +12,33 @@
     <string name="login_failed">"Login failed"</string>
     <string name="login_success">"Login success"</string>
 
+
     <!-- Student Dashboard -->
     <string name="action_report_archive">Report Archive</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_an_attendance_sheet">Create an Attendance Sheet</string>
+    <string name="classroom">Classroom</string>
+    <string name="attendance_score">Attendance Score</string>
+    <string name="give_a_name">Give a Name</string>
+    <string name="create">Create</string>
+    <string name="create_classroom">Create Classroom</string>
+    <string name="course">Course</string>
+    <string name="session">Session</string>
+
+    <string-array name="courses">
+        <item>CS 101</item>
+        <item>CS 102</item>
+        <item>CS 103</item>
+        <item>CS 104</item>
+        <item>CS 105</item>
+    </string-array>
+
+    <string-array name="sessions">
+        <item>Session 1</item>
+        <item>Session 2</item>
+        <item>Session 3</item>
+        <item>Session 4</item>
+        <item>Session 5</item>
+    </string-array>
 </resources>

@@ -1,21 +1,23 @@
 package com.nasakib.attendancems.ui.student.dashboard
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
 import android.widget.ListView
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.nasakib.attendancems.R
 import com.nasakib.attendancems.SessionManager
 import com.nasakib.attendancems.apis.ApiClient
+import com.nasakib.attendancems.data.model.StudentDashboardReport
 import com.nasakib.attendancems.databinding.ActivityDashboardStudentBinding
-import com.nasakib.attendancems.ui.ReportAdapter
+import com.nasakib.attendancems.ui.login.LoginActivity
+import com.nasakib.attendancems.ui.student.adapters.DashboardReportAdapter
+import com.nasakib.attendancems.ui.student.classroom.ClassroomReportActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -44,12 +46,21 @@ class DashboardActivity : AppCompatActivity() {
         listView = binding.list
         swipeRefreshLayout = binding.swipeRefresh
 
+        listView.setOnItemClickListener { parent, view, position, id ->
+            val report = parent.getItemAtPosition(position) as StudentDashboardReport
+
+            Intent (this, ClassroomReportActivity::class.java).also {
+                it.putExtra("classroom", report.classroom.id)
+                startActivity(it)
+            }
+        }
+
         dashboardViewModel = DashboardViewModel()
 
         dashboardViewModel.reports.observe(this@DashboardActivity, Observer {
             val reports = it ?: return@Observer
             Log.d("DashActivity", "Reports: $reports")
-            val adapter = ReportAdapter(this, R.layout.report_row, reports)
+            val adapter = DashboardReportAdapter(this, R.layout.report_row, reports)
             listView.adapter = adapter
         })
 
@@ -59,7 +70,7 @@ class DashboardActivity : AppCompatActivity() {
             // empty list
             dashboardViewModel.setReports(emptyList())
             GlobalScope.launch {
-                val result = apiService.getStudentHome(2161).execute()
+                val result = apiService.getStudentHome().execute()
                 if (result.isSuccessful) {
                     val response = result.body()
                     if (response != null) {
@@ -88,6 +99,7 @@ class DashboardActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.button_logout -> {
                 sessionManager.clearAuthToken()
+                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
         }

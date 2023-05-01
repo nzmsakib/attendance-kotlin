@@ -1,20 +1,17 @@
-package com.nasakib.attendancems.ui
+package com.nasakib.attendancems.ui.student.adapters
 
-import android.R
-import android.content.ClipData.Item
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import com.nasakib.attendancems.data.model.Report
+import com.nasakib.attendancems.data.model.StudentDashboardReport
 import com.nasakib.attendancems.databinding.ReportRowBinding
 
 
-class ReportAdapter(context: Context, resource: Int, objects: List<Report>) :
-    ArrayAdapter<Report>(context, resource, objects) {
+class DashboardReportAdapter(context: Context, resource: Int, objects: List<StudentDashboardReport>) :
+    ArrayAdapter<StudentDashboardReport>(context, resource, objects) {
     private val mContext: Context = context
     private val mResource: Int = resource
     private lateinit var reportRowBinding: ReportRowBinding
@@ -29,13 +26,13 @@ class ReportAdapter(context: Context, resource: Int, objects: List<Report>) :
             v = vi.inflate(mResource, null, true)
         }
 
-        val p: Report? = getItem(position)
+        val p: StudentDashboardReport? = getItem(position)
         val tv1 = v?.findViewById(reportRowBinding.reportLabel.id) as TextView
-        val tv2 = v?.findViewById(reportRowBinding.reportValue.id) as TextView
+        val tv2 = v.findViewById(reportRowBinding.reportValue.id) as TextView
 
         if (p != null) {
-            tv1?.text = p.label
-            tv2?.text = p.value.toString() + "%"
+            tv1.text = p.course.code
+            tv2.text = (p.attendancePercentage.toString() + "%")
         }
 
         return v!!

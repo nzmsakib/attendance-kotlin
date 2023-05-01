@@ -1,7 +1,7 @@
 package com.nasakib.attendancems.ui.teacher.dashboard
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.nasakib.attendancems.databinding.ActivityDashboardTeacherBinding
 
 class DashboardActivity : AppCompatActivity() {
