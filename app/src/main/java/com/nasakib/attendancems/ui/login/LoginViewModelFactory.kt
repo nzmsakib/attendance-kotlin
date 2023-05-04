@@ -12,13 +12,13 @@ import com.nasakib.attendancems.data.LoginRepository
  */
 class LoginViewModelFactory(context: Context) : ViewModelProvider.Factory {
 
-    private val context = context
+    private val mContext = context
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(
                 loginRepository = LoginRepository(
-                    dataSource = LoginDataSource(context)
+                    dataSource = LoginDataSource(mContext)
                 )
             ) as T
         }

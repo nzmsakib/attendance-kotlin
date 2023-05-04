@@ -4,6 +4,7 @@ object Constants {
     // Endpoints
     const val BASE_URL = "https://ams.nasakib.com/api/"
     const val LOGIN_URL = "login"
+    const val USER_URL = "user"
     const val STUDENT_HOME_URL = "student"
     const val STUDENT_CLASSROOM_URL = "student/{classroom}"
 }

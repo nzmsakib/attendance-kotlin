@@ -9,6 +9,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -17,8 +18,6 @@ import com.nasakib.attendancems.databinding.ActivityLoginBinding
 
 import com.nasakib.attendancems.R
 import com.nasakib.attendancems.SessionManager
-import com.nasakib.attendancems.ui.student.dashboard.DashboardActivity
-import com.nasakib.attendancems.ui.teacher.dashboard.dialogs.CreateEditClassroomDialog
 
 class LoginActivity : AppCompatActivity() {
 
@@ -37,15 +36,13 @@ class LoginActivity : AppCompatActivity() {
         val login = binding.login
         val loading = binding.loading
 
+        loginViewModel = ViewModelProvider(this, LoginViewModelFactory(applicationContext))[LoginViewModel::class.java]
+
         sessionManager = SessionManager(this)
         // if user is already logged in, then redirect to dashboard
         if (sessionManager.isLoggedIn) {
-            val intent = Intent(this, DashboardActivity::class.java)
-            startActivity(intent)
-            finish()
+            loginViewModel.login()
         }
-
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory(applicationContext))[LoginViewModel::class.java]
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
@@ -118,8 +115,13 @@ class LoginActivity : AppCompatActivity() {
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
-        // TODO : initiate successful logged in experience
-        startActivity(Intent(this, DashboardActivity::class.java))
+        Log.d(this.javaClass.name, "updateUiWithUser: $model")
+        if (model.roles.contains("teacher")) {
+            startActivity(Intent(this, com.nasakib.attendancems.ui.teacher.dashboard.DashboardActivity::class.java))
+        }
+        else {
+            startActivity(Intent(this, com.nasakib.attendancems.ui.student.dashboard.DashboardActivity::class.java))
+        }
         Toast.makeText(
             applicationContext,
             "$welcome $displayName",

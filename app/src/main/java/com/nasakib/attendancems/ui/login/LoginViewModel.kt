@@ -24,7 +24,19 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
 
         if (result is Result.Success) {
             _loginResult.value =
-                LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
+                LoginResult(success = LoggedInUserView(displayName = result.data.displayName, roles = result.data.roles))
+        } else {
+            _loginResult.value = LoginResult(error = R.string.login_failed)
+        }
+    }
+
+    fun login() {
+        // can be launched in a separate asynchronous job
+        val result = loginRepository.login()
+
+        if (result is Result.Success) {
+            _loginResult.value =
+                LoginResult(success = LoggedInUserView(displayName = result.data.displayName, roles = result.data.roles))
         } else {
             _loginResult.value = LoginResult(error = R.string.login_failed)
         }

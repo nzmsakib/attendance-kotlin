@@ -3,6 +3,7 @@ package com.nasakib.attendancems.apis
 import com.nasakib.attendancems.apis.Constants.LOGIN_URL
 import com.nasakib.attendancems.apis.Constants.STUDENT_CLASSROOM_URL
 import com.nasakib.attendancems.apis.Constants.STUDENT_HOME_URL
+import com.nasakib.attendancems.apis.Constants.USER_URL
 import com.nasakib.attendancems.data.model.ApiResult
 import com.nasakib.attendancems.data.model.LoggedInUser
 import com.nasakib.attendancems.data.model.LoggedOutUser
@@ -26,7 +27,7 @@ interface ApiService {
     @GET("logout")
     fun logout(): Call<ApiResult<LoggedInUser>>
 
-    @GET("user")
+    @GET(USER_URL)
     fun getUser(): Call<ApiResult<LoggedInUser>>
 
     @GET(STUDENT_HOME_URL)
