@@ -10,6 +10,7 @@ import com.nasakib.attendancems.apis.Constants.USER_URL
 import com.nasakib.attendancems.data.model.ApiResult
 import com.nasakib.attendancems.data.model.Attendance
 import com.nasakib.attendancems.data.model.Classroom
+import com.nasakib.attendancems.data.model.EnrollAttendance
 import com.nasakib.attendancems.data.model.LoggedInUser
 import com.nasakib.attendancems.data.model.LoggedOutUser
 import com.nasakib.attendancems.data.model.StudentClassroomReport
@@ -72,6 +73,7 @@ interface ApiService {
 
     @POST(TEACHER_ATTENDANCE_URL)
     fun enrollAttendance(
-        @Body attendance: Attendance
+        @Path("attendance") attendance: Int,
+        @Body enrollAttendance: EnrollAttendance
     ) : Call<ApiResult<Any>>
 }

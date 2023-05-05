@@ -5,5 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.teacher.attendance.AttendanceActivity">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="3dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutBottomActions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutBottomActions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchPresentAbsentAll"
+            android:layout_width="140dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/switch_present_absent_all" />
+
+        <Button
+            android:id="@+id/button_enroll_attendance"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:layout_weight="3"
+            android:text="@string/action_enroll_attendance"
+            android:textSize="18sp" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
