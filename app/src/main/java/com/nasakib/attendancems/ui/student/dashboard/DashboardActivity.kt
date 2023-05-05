@@ -13,6 +13,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.nasakib.attendancems.R
 import com.nasakib.attendancems.SessionManager
 import com.nasakib.attendancems.apis.ApiClient
+import com.nasakib.attendancems.apis.ApiService
 import com.nasakib.attendancems.data.model.StudentDashboardReport
 import com.nasakib.attendancems.databinding.ActivityDashboardStudentBinding
 import com.nasakib.attendancems.ui.login.LoginActivity
@@ -29,6 +30,7 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var dashboardViewModel: DashboardViewModel
     private lateinit var listView: ListView
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var apiService: ApiService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,11 +40,6 @@ class DashboardActivity : AppCompatActivity() {
         sessionManager = SessionManager(this)
         apiClient = ApiClient()
 
-        toolbar = binding.toolbar
-
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Student Dashboard"
-
         listView = binding.list
         swipeRefreshLayout = binding.swipeRefresh
 
@@ -51,6 +48,7 @@ class DashboardActivity : AppCompatActivity() {
 
             Intent (this, ClassroomReportActivity::class.java).also {
                 it.putExtra("classroom", report.classroom.id)
+                it.putExtra("course_name", report.course.code)
                 startActivity(it)
             }
         }
@@ -62,30 +60,36 @@ class DashboardActivity : AppCompatActivity() {
             Log.d("DashActivity", "Reports: $reports")
             val adapter = DashboardReportAdapter(this, R.layout.report_row, reports)
             listView.adapter = adapter
+            swipeRefreshLayout.isRefreshing = false
         })
 
-        val apiService = apiClient.getApiService(this)
+        apiService = apiClient.getApiService(this)
+
+        swipeRefreshLayout.isRefreshing = true
+        this.refresh()
 
         swipeRefreshLayout.setOnRefreshListener {
-            // empty list
-            dashboardViewModel.setReports(emptyList())
-            GlobalScope.launch {
-                val result = apiService.getStudentHome().execute()
-                if (result.isSuccessful) {
-                    val response = result.body()
-                    if (response != null) {
-                        if (response.status == "success") {
-                            dashboardViewModel.setReports(response.data)
-                        } else {
-                            Log.d("DashActivity", "Dash: ${response.message}")
-                        }
+            this.refresh()
+        }
+        supportActionBar?.title = "Dashboard"
+    }
+
+    private fun refresh() {
+        GlobalScope.launch {
+            val result = apiService.getStudentHome().execute()
+            if (result.isSuccessful) {
+                val response = result.body()
+                if (response != null) {
+                    if (response.status == "success") {
+                        dashboardViewModel.setReports(response.data)
                     } else {
-                        Log.d("DashActivity", "Dash: ${result.errorBody()}")
+                        Log.d(this.javaClass.name, "Dash: ${response.message}")
                     }
                 } else {
-                    Log.d("DashActivity", "Dash: ${result.errorBody()}")
+                    Log.d(this.javaClass.name, "Dash: ${result.errorBody()}")
                 }
-                swipeRefreshLayout.isRefreshing = false
+            } else {
+                Log.d(this.javaClass.name, "Dash: ${result.errorBody()}")
             }
         }
     }

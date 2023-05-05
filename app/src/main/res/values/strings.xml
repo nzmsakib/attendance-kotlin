@@ -25,6 +25,8 @@
     <string name="create_classroom">Create Classroom</string>
     <string name="course">Course</string>
     <string name="session">Session</string>
+    <string name="action_create_classroom">New Classroom</string>
+    <string name="action_create_attendance">New Attendance Sheet</string>
 
     <string-array name="courses">
         <item>CS 101</item>

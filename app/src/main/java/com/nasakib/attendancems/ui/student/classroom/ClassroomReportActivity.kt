@@ -3,7 +3,9 @@ package com.nasakib.attendancems.ui.student.classroom
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.nasakib.attendancems.SessionManager
 import com.nasakib.attendancems.apis.ApiClient
@@ -20,8 +22,7 @@ class ClassroomReportActivity : AppCompatActivity() {
     private lateinit var sessionManager: SessionManager
     private lateinit var apiClient: ApiClient
     private lateinit var apiService: ApiService
-    private lateinit var toolbar: Toolbar
-    var classroomId: Int = 0
+    private var classroomId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,23 +34,27 @@ class ClassroomReportActivity : AppCompatActivity() {
         apiClient = ApiClient()
         apiService = apiClient.getApiService(this)
 
-        toolbar = binding.toolbar
-
-        setSupportActionBar(toolbar)
-
-        supportActionBar?.title = "Classroom Report"
-
         classroomId = intent.getIntExtra("classroom", 0)
+        val classname = intent.getStringExtra("course_name")
 
         classroomReportViewModel = ClassroomReportViewModel()
         binding.recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
 
+        classroomReportViewModel.reports.observe(this@ClassroomReportActivity, Observer {
+            val reports = it ?: return@Observer
+            binding.recyclerView.adapter = ClassroomReportAdapter(this, reports)
+        })
+
+        binding.swipeRefresh.isRefreshing = true
         getReports(classroomId)
 
-        classroomReportViewModel.reports.observe(this@ClassroomReportActivity) {
-            Log.d(this.javaClass.name, "Reports: $it")
-            binding.recyclerView.adapter = ClassroomReportAdapter(this, it)
+        binding.swipeRefresh.setOnRefreshListener {
+            getReports(classroomId)
         }
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.title = classname
     }
 
     private fun getReports(classroomId: Int) {
@@ -69,6 +74,16 @@ class ClassroomReportActivity : AppCompatActivity() {
             } else {
                 Log.d(this.javaClass.name, "Dash: ${result.errorBody()}")
             }
+            runOnUiThread {
+                binding.swipeRefresh.isRefreshing = false
+            }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

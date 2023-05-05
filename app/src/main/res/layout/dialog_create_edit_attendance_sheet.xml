@@ -39,20 +39,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
-                android:text="@string/classroom"
-                android:textSize="18sp" />
-
-            <Spinner
-                android:id="@+id/sp_course"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/spinner" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
                 android:text="@string/attendance_score"
                 android:textSize="18sp" />
 
@@ -74,7 +60,7 @@
                 android:textSize="18sp" />
 
             <EditText
-                android:id="@+id/et_classroom_name"
+                android:id="@+id/et_attendance_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -83,17 +69,14 @@
                 android:paddingVertical="7dp"
                 android:textSize="18sp" />
 
-            <TextView
+            <Button
+                android:id="@+id/btn_create"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:background="@drawable/bg_stocked"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="7dp"
-                android:text="@string/create"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:text="@string/create"/>
         </LinearLayout>
 
 

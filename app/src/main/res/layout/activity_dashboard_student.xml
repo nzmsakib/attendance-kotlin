@@ -7,26 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.student.dashboard.DashboardActivity">
 
-  <androidx.appcompat.widget.Toolbar
-      android:id="@+id/toolbar"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="?attr/colorPrimary"
-      android:minHeight="?attr/actionBarSize"
-      android:theme="?attr/actionBarTheme"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
-
   <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
       android:id="@+id/swipeRefresh"
       android:layout_width="0dp"
       android:layout_height="0dp"
       android:layout_marginBottom="3dp"
-      app:layout_constraintBottom_toTopOf="@+id/buttonArchive"
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/toolbar">
+      app:layout_constraintTop_toTopOf="parent">
 
     <ListView
         android:id="@android:id/list"
@@ -34,16 +23,4 @@
         android:layout_height="match_parent" />
 
   </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-  <Button
-      android:id="@+id/buttonArchive"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:insetLeft="10dp"
-      android:insetRight="10dp"
-      android:text="@string/action_report_archive"
-      android:visibility="visible"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

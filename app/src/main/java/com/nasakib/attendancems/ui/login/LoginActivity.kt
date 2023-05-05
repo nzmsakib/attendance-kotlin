@@ -39,6 +39,7 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory(applicationContext))[LoginViewModel::class.java]
 
         sessionManager = SessionManager(this)
+
         // if user is already logged in, then redirect to dashboard
         if (sessionManager.isLoggedIn) {
             loginViewModel.login()
@@ -106,8 +107,6 @@ class LoginActivity : AppCompatActivity() {
                     username.text.toString(),
                     password.text.toString()
                 )
-
-//                CreateEditClassroomDialog().show(supportFragmentManager, "CreateEditClassroomDialog")
             }
         }
     }
