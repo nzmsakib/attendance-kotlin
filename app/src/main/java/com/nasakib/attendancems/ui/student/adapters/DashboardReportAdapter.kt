@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.nasakib.attendancems.data.model.StudentDashboardReport
 import com.nasakib.attendancems.databinding.ReportRowBinding
@@ -29,10 +30,14 @@ class DashboardReportAdapter(context: Context, resource: Int, objects: List<Stud
         val p: StudentDashboardReport? = getItem(position)
         val tv1 = v?.findViewById(reportRowBinding.reportLabel.id) as TextView
         val tv2 = v.findViewById(reportRowBinding.reportValue.id) as TextView
+        val tv3 = v.findViewById(reportRowBinding.reportLabel2.id) as TextView
+        val pbar = v.findViewById(reportRowBinding.progressBar.id) as ProgressBar
 
         if (p != null) {
             tv1.text = p.course.code
             tv2.text = (p.attendancePercentage.toString() + "%")
+            tv3.text = p.course.title
+            pbar.progress = p.attendancePercentage.toInt()
         }
 
         return v!!

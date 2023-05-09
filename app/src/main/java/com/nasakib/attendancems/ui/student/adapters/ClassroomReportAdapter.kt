@@ -31,7 +31,9 @@ class ClassroomReportAdapter(context: Context, objects: List<StudentClassroomRep
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val report = mObjects[position]
         holder.reportRowBinding.reportLabel.text = report.attendance.name
-        holder.reportRowBinding.reportValue.text = report.score.toString() + "/" + report.attendance.score.toString()
+        holder.reportRowBinding.reportValue.text = (report.score / report.attendance.score * 100).toString() + "%"
+        holder.reportRowBinding.reportLabel2.text = report.attendance.classroom?.name
+        holder.reportRowBinding.progressBar.progress = (report.score / report.attendance.score * 100).toInt()
         Log.d(this.javaClass.name, "Report: $report")
     }
 

@@ -4,29 +4,58 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:orientation="horizontal"
+
+    <TextView
+        android:id="@+id/reportLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/reportLabel2"
+        />
+
+    <TextView
+        android:id="@+id/reportLabel2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reportLabel"
+        />
+
+    <RelativeLayout
+        android:id="@+id/progressLayout"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/reportLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="24sp" />
+        <!--progress bar implementation-->
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/circle_progress_shape"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/circle_progress"
+            android:textAlignment="center" />
 
+        <!--Text implementation in center of the progress bar-->
         <TextView
             android:id="@+id/reportValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="textEnd"
-            android:textSize="24sp" />
-    </LinearLayout>
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textSize="24sp"/>
+    </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
